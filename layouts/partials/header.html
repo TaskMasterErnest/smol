@@ -1,16 +1,38 @@
-<header>
-	{{ strings.Repeat ( .Site.Title | len | add 6 ) "=" }}<br>
-	== <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a> ==<br>
-	{{ strings.Repeat ( .Site.Title | len | add 6 ) "=" }}
-	<div style="float: right;">{{ .Site.Params.subtitle }}</div><br>
-	<p>
-	<nav>
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ .Title }}{{ if not .IsHome }} - {{ .Site.Title }}{{ end }}</title>
+
+	<!-- Twitter Card meta tags -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title"
+		content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}" />
+	<meta name="twitter:description"
+		content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary }}{{ end }}{{ end }}" />
+	{{ with .Params.image }}
+	<meta name="twitter:image" content="{{ . | absURL }}" />
+	{{ else }}
+	<meta name="twitter:image" content="{{ .Site.Params.defaultImage | absURL }}" />
+	{{ end }}
+
+	<!-- Original header content -->
+	<header>
+		{{ strings.Repeat ( .Site.Title | len | add 6 ) "=" }}<br>
+		== <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a> ==<br>
+		{{ strings.Repeat ( .Site.Title | len | add 6 ) "=" }}
+		<div style="float: right;">{{ .Site.Params.subtitle }}</div><br>
+		<p>
+		<nav>
 			<a href="/"><b>Start</b></a>.
 			{{ with .Site.Menus.main }}
 			{{ range . }}
 			<a href="{{ .URL | relURL }}"><b>{{ .Name }}</b></a>.
 			{{ end }}
-	</nav>
-	</p>
-	{{ end }}
-</header>
+		</nav>
+		</p>
+		{{ end }}
+	</header>
+</head>
